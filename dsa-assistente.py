@@ -145,3 +145,13 @@ if prompt := st.chat_input("Qual a sua dúvida sobre Python?"):
             # Caso ocorra erro na comunicação com a API, exibe mensagem de erro
             except Exception as e:
                 st.error(f"Ocorreu um erro ao se comunicar com a API da Groq: {e}")
+
+st.markdown(
+    """
+    <div style="text-align: center; color: gray;">
+        <hr>
+        <p>DSA AI Coder - Parte Integrante do Curso Gratuito de Linguagem Python da Data Science Academy</p>
+    </div>
+    """,
+    unsafe_allow_html=True
+)
