@@ -99,3 +99,49 @@ if groq_api_key:
 elif st.session_state.messages:
     st.warning("Por favor, insira sua API Key da Groq na barra lateral para continuar.")
 
+# Captura a entrada do usuário no chat
+if prompt := st.chat_input("Qual a sua dúvida sobre Python?"):
+
+    # Se não houver cliente válido, mostra aviso e para a execução
+    if not client:
+        st.warning("Por favor, insira sua API Key da Groq na barra lateral para começar.")
+        st.stop()
+
+    # Armazena a mensagem do usuário no estado da sessão
+    st.session_state.messages.append({"role": "user", "content": prompt})
+
+    # Exibe a mensagem do usuário no chat
+    with st.chat_message("user"):
+        st.markdown(prompt)
+
+    # Prepara mensagens para enviar à API, incluindo prompt de sistema
+    messages_for_api = [{"role": "system", "content": CUSTOM_PROMPT}]
+    for msg in st.session_state.messages:
+        messages_for_api.append(msg)
+
+    # Cria a resposta do assistente no chat
+    with st.chat_message("assistant"):
+        with st..spinner("Analisando sua pergunta..."):
+
+            try:
+
+                # Chama a API da Groq para gerar a resposta do assistente
+                chat_completion = client.chat.completions.create(
+                    messages = messages_for_api,
+                    model = "openai/gpt-oss-20b",
+                    temperature = 0.7,
+                    max_tokens = 2048,
+                )
+
+                # Extrai a resposta gerada pela API
+                dsa_ai_resposta = chat_completion.choices[0].message.content
+
+                # Exibe a resposta no Streamlit
+                st.markdown(dsa_ai_resposta)
+
+                # Armazena resposta do assistente no estado da sessão
+                st.session_state.messages.append({"role": "assitant", "content": dsa_ai_resposta})
+
+            # Caso ocorra erro na comunicação com a API, exibe mensagem de erro
+            except Exception as e:
+                st.error(f"Ocorreu um erro ao se comunicar com a API da Groq: {e}")
