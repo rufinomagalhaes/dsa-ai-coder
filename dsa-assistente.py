@@ -121,7 +121,7 @@ if prompt := st.chat_input("Qual a sua dúvida sobre Python?"):
 
     # Cria a resposta do assistente no chat
     with st.chat_message("assistant"):
-        with st..spinner("Analisando sua pergunta..."):
+        with st.spinner("Analisando sua pergunta..."):
 
             try:
 
